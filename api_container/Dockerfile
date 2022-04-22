@@ -7,11 +7,8 @@ RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Setup App Environment
-RUN mkdir /app
+COPY ["./app","/"]
 WORKDIR /app
-COPY ["./server.py","/app/"]
-COPY ["./telloclient.py","/app/"]
-COPY ["./requirements.txt","/app/"]
 RUN pip3 install --no-cache -r requirements.txt
 
 # Run App
