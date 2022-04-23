@@ -1,12 +1,13 @@
+from concurrent.futures import thread
 from flask import request,jsonify
 import flask, os
 from telloclient import telloclient
 
+# Setup UDP CLient configuration
 droneclient = telloclient(target=os.environ.get("MIDDLEWARE_IP"), port=int(os.environ.get("MIDDLEWARE_PORT")))
 
+# Setup Flask App
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
-
 #####################################################################################################################
 @app.route('/', methods=['GET'])
 def home():
@@ -207,4 +208,6 @@ def flighttime():
         return jsonify(status)
 
 #####################################################################################################################
-app.run()
+if __name__ == "__main__":
+    app.run()
+# uwsgi --plugin http,python --http :8000 --wsgi-file server.py --master --threads 2 --mount /server=server:app
