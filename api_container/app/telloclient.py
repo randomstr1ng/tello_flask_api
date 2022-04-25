@@ -4,11 +4,12 @@ import socket
 
 
 class telloclient():
-    def __init__(self, target, port):
+    def __init__(self, target, port, result_port):
         self.target = target
         self.port = port
+        self.result_port = result_port
         self.target_address = (self.target, self.port)
-        self.local_address = (self.target, 9092)
+        self.local_address = (self.target, self.result_port)
 
 
     def client(self, command):

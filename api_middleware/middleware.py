@@ -4,17 +4,23 @@ import socket, threading
 
 #####################################################################################################################
 # Setup Middleware socket
+
+## Proxy Listener Ip and Port
 proxy_host = "127.0.0.1"
 proxy_port = 9090
+
+## API Server Status reciever / back communication of results to API Server
 client_host = "127.0.0.1"
 client_port = 9092
+
+
 recvaddr = (proxy_host,proxy_port)
 clientaddr = (client_host, client_port )
 proxy_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 proxy_socket.bind(recvaddr)
 
 #####################################################################################################################
-# Setup target
+# Setup communication to Drone itself
 target = "10.20.30.32"
 target_port = 8889
 drone_address = (target, target_port)
@@ -25,7 +31,7 @@ print(f"[*] Listener: udp://{proxy_host}:{proxy_port}")
 print(f"[*] Receiver: udp://{target}:{target_port}")
 
 #####################################################################################################################
-# Result Socket Setup
+# Setup Local Socket to recive Status information & send Information from.
 host = ""
 port = 8889
 locaddr = (host,port)

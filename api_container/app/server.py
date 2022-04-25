@@ -4,7 +4,7 @@ import flask, os
 from telloclient import telloclient
 
 # Setup UDP CLient configuration
-droneclient = telloclient(target=os.environ.get("MIDDLEWARE_IP"), port=int(os.environ.get("MIDDLEWARE_PORT")))
+droneclient = telloclient(target=os.environ.get("MIDDLEWARE_IP"), port=int(os.environ.get("MIDDLEWARE_PORT")), result_port=int(os.environ.get("MIDDLEWARE_RESULT_PORT")))
 
 # Setup Flask App
 app = flask.Flask(__name__)
