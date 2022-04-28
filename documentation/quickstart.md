@@ -13,6 +13,13 @@ Explanantion:
 - `-X POST`: defines which HTTP method will be used for the Webrequest. I this case it will be a `POST` request
 - `'http://localhost:5000/command'`: the URL of the API Endpoint. `/command` is the API Endpoint in this case.
 
+Additional Parameter and help with the `curl` utility can be found [here](https://linux.die.net/man/1/curl)
+Instead of the `curl` utility you also could use the following tools:
+- [Postman](https://www.postman.com/downloads/)
+- [Burp Suite](https://portswigger.net/burp/communitydownload)
+- [ZAP](https://www.zaproxy.org/download/)
+
+
 ## Public API Endpoints
 
 This List provides an overview of availibe API Endpoints which can be used to control the Drone.
