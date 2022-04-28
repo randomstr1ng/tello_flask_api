@@ -34,5 +34,6 @@ Endpoint | Data | Description
 
 ## How to use the API with the Drone
 
-1. To enable the Drone to accept API Commands, you have to use the `/command` endpoint after every shutdown/powercycle of the Drone. 2. To validate, that the Drone accepts command, check that the LED in fron flash purple.
+1. To enable the Drone to accept API Commands, you have to use the `/command` endpoint after every shutdown/powercycle of the Drone. 
+2. To validate, that the Drone accepts command, check that the LED in fron flash purple.
 3. Now the drone is ready to go on its flight.
