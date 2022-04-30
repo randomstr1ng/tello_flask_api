@@ -4,7 +4,7 @@ import socket, threading
 from argparse import ArgumentParser
 
 def parse_options():
-    description = "TThis script setup a middleware UDP Proxy for the DJI Tello API and the Drone."
+    description = "This script setup a middleware UDP Proxy for the DJI Tello API and the Drone."
     parser = ArgumentParser(description=description)
     parser.add_argument("-ph","--proxy_host", dest="proxy_host", help="Listen IP address of the Proxy Service on the Local Server", default="0.0.0.0")
     parser.add_argument("-pp","--proxy_port", dest="proxy_port", help="Listen Port of the Proxy Service", required=True)
@@ -60,5 +60,3 @@ while True:
         print("Close Console...")
         udp_socket.close()
         break
-
-
