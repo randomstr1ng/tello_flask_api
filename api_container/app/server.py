@@ -1,56 +1,43 @@
 from concurrent.futures import thread
 from flask import request,jsonify
+from flask import render_template
 import flask, os
 from telloclient import telloclient
 
 # Setup UDP CLient configuration
-droneclient = telloclient(target=os.environ.get("MIDDLEWARE_IP"), port=int(os.environ.get("MIDDLEWARE_PORT")), result_port=int(os.environ.get("MIDDLEWARE_RESULT_PORT")))
+droneclient = telloclient(result_port=int(os.environ.get("MIDDLEWARE_RESULT_PORT")))
+
+def drone_command(droneclient, command, port=int(os.environ.get("MIDDLEWARE_PORT")), target=os.environ.get("MIDDLEWARE_IP")):
+    status = droneclient.client(command=command, port=port, target=target)
+    if "Error" in status.decode(encoding='utf-8'):
+        return status
+    else:
+        status = {
+            'Status': status.decode("utf-8").strip(),
+        }
+        return jsonify(status)
 
 # Setup Flask App
 app = flask.Flask(__name__)
 #####################################################################################################################
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Welcome to your Drone API</h1><p>This API allows you to controle a Drone</p>"
+    return render_template("index.html")
 
 @app.route('/command', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/command'
 def command():
-    command = "command"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="command")
 
 @app.route('/emergency', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/emergency'
 def emergency():
-    command = "emergency"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="emergency")
 
 @app.route('/stop', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/stop'
 def stop():
-    command = "stop"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="stop")
 
 @app.route('/motor', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/motor' -d '{"status":"on"}' -H 'Content-Type: application/json'
@@ -62,40 +49,18 @@ def motor():
         command = "motoroff"
     else:
         return "ERROR: Wrong input supplied! Motor can be only have status \"on\" or \"off\""
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+
+    return drone_command(droneclient, command=command)
 
 @app.route('/takeoff', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/takeoff'
 def takeoff():
-    command = "takeoff"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="takeoff")
 
 @app.route('/land', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/land'
 def land():
-    command = "land"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="land")
 
 @app.route('/move', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/move' -d '{"direction":"on", "distance": 30}' -H 'Content-Type: application/json'
@@ -116,14 +81,8 @@ def move():
             command = "back " + str(data['distance'])
     else:
         return "ERROR: Wrong input supplied! Direction can be only have the value up,down,left,right,forward,back and a distance between 20-500"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+
+    return drone_command(droneclient, command=command)
 
 @app.route('/rotate', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/rotate' -d '{"direction":"cw", "degrees": 30}' -H 'Content-Type: application/json'
@@ -136,14 +95,8 @@ def rotate():
             command = "ccw " + str(data['degrees'])
     else:
         return "ERROR: Wrong input supplied! Direction can be only have the value clockwise(cw) / counterclockwise(ccw) and a degrees between 1-360"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+
+    return drone_command(droneclient, command=command)
 
 @app.route('/flip', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/flip' -d '{"direction":"l"}' -H 'Content-Type: application/json'
@@ -159,53 +112,48 @@ def flip():
         command = "flip b"
     else:
         return "ERROR: Wrong input supplied! Flip can be only be done into the follwoing directions: left (l), right(r), forward(f), back(b)"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    
+    return drone_command(droneclient, command=command)
+
 #####################################################################################################################
 @app.route('/status/battery', methods=['GET'])
 # Example: curl -X GET 'http://localhost:5000/status/battery'
 def battery_status():
-    command = "battery?"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="battery?")
 
 @app.route('/status/speed', methods=['GET'])
 # Example: curl -X GET 'http://localhost:5000/status/speed'
 def speed():
-    command = "speed?"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="speed?")
 
 @app.route('/status/flighttime', methods=['GET'])
 # Example: curl -X GET 'http://localhost:5000/status/flighttime'
 def flighttime():
-    command = "time?"
-    status = droneclient.client(command=command)
-    if "Error" in status:
-        return status
-    else:
-        status = {
-            'Status': status.decode("utf-8").strip(),
-        }
-        return jsonify(status)
+    return drone_command(droneclient, command="time?")
+
+#####################################################################################################################
+@app.route('/status/connection-test', methods=['GET', 'POST'])
+def connectiontest():
+    if request.method == 'POST':
+        try:
+            data = request.json
+            if 'port' in data and not 'host' in data:
+                new_port = int(data['port'])
+                return drone_command(droneclient, command="ping", port=new_port)
+            elif 'host' in data and not 'port' in data:
+                new_host = data['host']
+                return drone_command(droneclient, command="ping", target=new_host)
+            elif 'port' in data and 'host' in data:
+                new_port = int(data['port'])
+                new_host = data['host']
+                return drone_command(droneclient, command="ping", port=new_port, target=new_host)
+# Add function to send a raw command
+            else:
+                return "Hint: You have to specify host and/or port to check the connection with a non-default Middleware. You could also specify the parameter command to send a raw command to the Drone"
+        except:
+            return "For Post request, a empty JSON Body must be specified and the application type must be set. Example: curl -X POST 'http://localhost:5000/status/connection-test' -d '{}' -H 'Content-Type: application/json'"
+
+    return drone_command(droneclient, command="ping")
 
 #####################################################################################################################
 if __name__ == "__main__":

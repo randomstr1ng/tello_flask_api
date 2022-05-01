@@ -54,8 +54,13 @@ while True:
         print(f"Got Command: {command.decode(encoding='utf-8')}")
         if not command:
             break
-        sent = udp_socket.sendto(command, drone_address)
-        print(f"Data sent: {sent}")
+        if "ping" in command.decode(encoding='utf-8'):
+            data = "pong"
+            sent = proxy_socket.sendto(data.encode(encoding="utf-8"), clientaddr)
+            print(f"Data sent: {sent}")
+        else:
+            sent = udp_socket.sendto(command, drone_address)
+            print(f"Data sent: {sent}")
     except KeyboardInterrupt:
         print("Close Console...")
         udp_socket.close()

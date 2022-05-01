@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Cyber Space Force Drone API</title>
+    <meta property="og:title" content="Drone API"">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  </head>
+  <body>
+
+    <header>
+      <h1>
+        <a href="#home">Cyber Space Force Drone API</a>
+      </h1>
+      <nav>
+        <a href="#calc">Calculator</a>
+        <a href="#debug">Debug</a>
+      </nav>
+
+    </header>
+    
+    <main>
+      
+      <section id="home">
+        
+        <center>
+            <p><h1>Welcome to the Cyber Space Force Drone API</h1></p>
+            <p>For further instructions, please refere to the Quickstart guide</p>
+            <p></p>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" height="227" width="227">
+            <p></p>
+            <p><b>Safety Notification:</b></p>
+            <p>If the Drone does not recieve a command within 15 seconds after the last command, it will automatically land!</p>
+        </center>
+      </section>
+      
+      <section id="calc">
+        
+        <h1>Lenght Converter</h1>
+        <h2>Convert feet to centimeter (cm) and vise-versa</h2>
+
+        <p>As the Drone only accepts only centimer for any disctance, this calculator will help you to convert feet to centimeter (cm) and centimeter (cm) to feet.</p>
+        <p>
+            <h3>Feet (ft) to Centimeter (cm)</h3>
+            <p>Feet (ft): <input id="inputFeet" type="number" placeholder="feet" oninput="ft2cm(this.value)" onchange="ft2cm(this.value)"></p>
+        </p>
+        <p>Result: (cm): <b><span id="outputcm"></span></b></p>
+        <script>
+            function ft2cm(valNum) {
+              document.getElementById("outputcm").innerHTML=(valNum/0.032808).toFixed(2);
+            }
+        </script>
+
+        <p>
+            <h3>Centimeter (cm) to Feet (ft)</h3>
+            <p>Centimeter (cm): <input id="inputcentimeter" type="number" placeholder="feet" oninput="cm2ft(this.value)" onchange="cm2ft(this.value)"></p>
+        </p>
+        <p>Result: (ft): <b><span id="outputfeet"></span></b></p>
+        <script>
+            function cm2ft(valNum) {
+              document.getElementById("outputfeet").innerHTML=(valNum*0.032808).toFixed(2);
+            }
+        </script>
+               
+      </section>
+      
+      <section id="debug">
+        
+        <h1>API Debug & Troubelshooting</h1>
+        <p>This Section provide some mechanism an tools to troubleshoot the API itself and the Communication to the Drone</p>
+        <ul>
+            <li><a href="/status/connection-test">Middleware connection test</a></li>
+<!-- Add Link/Documentation for Tello API -->
+            <li>OS System Info</li>
+        </ul>
+
+      </section> 
+    </main>
+  </body>
+</html>
