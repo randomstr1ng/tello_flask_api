@@ -137,17 +137,32 @@ def connectiontest():
     if request.method == 'POST':
         try:
             data = request.json
-            if 'port' in data and not 'host' in data:
+            if 'port' in data and not 'host' in data and not 'command' in data:
                 new_port = int(data['port'])
                 return drone_command(droneclient, command="ping", port=new_port)
-            elif 'host' in data and not 'port' in data:
+            elif 'host' in data and not 'port' in data and not 'command' in data:
                 new_host = data['host']
                 return drone_command(droneclient, command="ping", target=new_host)
-            elif 'port' in data and 'host' in data:
+            elif 'port' in data and 'host' in data and not 'command' in data:
                 new_port = int(data['port'])
                 new_host = data['host']
                 return drone_command(droneclient, command="ping", port=new_port, target=new_host)
-# Add function to send a raw command
+            elif 'command' in data and not 'host' in data and not 'port' in data:
+                raw_command = int(data['command'])
+                return drone_command(droneclient, command=raw_command)
+            elif 'command' in data and 'port' in data and not 'host' in data:
+                raw_command = data['command']
+                new_port = int(data['port'])
+                return drone_command(droneclient, command=raw_command, port=new_port)
+            elif 'port' not in data and 'host' in data and 'command' in data:
+                new_host = data['host']
+                raw_command = data['command']
+                return drone_command(droneclient, command=raw_command, target=new_host)
+            elif 'port' in data and 'host' in data and 'command' in data:
+                new_port = int(data['port'])
+                new_host = data['host']
+                raw_command = data['command']
+                return drone_command(droneclient, command=raw_command, port=new_port, target=new_host)
             else:
                 return "Hint: You have to specify host and/or port to check the connection with a non-default Middleware. You could also specify the parameter command to send a raw command to the Drone"
         except:
