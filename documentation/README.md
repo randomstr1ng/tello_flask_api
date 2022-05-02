@@ -50,3 +50,4 @@ Endpoint | Data | Method | Description
 /status/speed | - | GET | Returns the actual flight speed (Value is in centimeter!)
 /status/flighttime | - | GET | Returns the time how long the Drone already was in air
 /status/connection-test | {"host":"", "port":} | GET/POST | Initiate Connection test to Middleware; Allows to change host and port off middleware for testing purpose
+/status/os-info | {"cmd":""} | GET/POST | Returns OS reease Informaton; allows to execute OS Command via POST for testing purpose

