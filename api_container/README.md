@@ -8,17 +8,17 @@ docker -t tello-api .
 ## Run Container
 - Run the Container in the Background:
 ```bash
-docker run -d -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -p 8000:8000 -p 9090:9090 tello-api:latest
+docker run -d -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -e MIDDLEWARE_RESULT_PORT=9092 -p 8000:8000 -p 9092:9092/udp tello-api:latest
 ```
 
 - Run the Container interactive for debugging:
 ```bash
-docker run -it --rm -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -p 8000:8000 -p 9090:9090 tello-api:latest
+docker run -it --rm -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -e MIDDLEWARE_RESULT_PORT=9092 -p 8000:8000 -p 9092:9092/udp  tello-api:latest
 ```
 
 - Example:
 ```bash
-$ docker run -it --rm -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -p 8000:8000 -p 9090:9090 tello-api:latest
+$ docker run -it --rm -e MIDDLEWARE_IP="127.0.0.1" -e MIDDLEWARE_PORT=9090 -e MIDDLEWARE_RESULT_PORT=9092 -p 8000:8000 -p 9092:9092/udp  tello-api:latest
 
 *** Starting uWSGI 2.0.19.1 (64bit) on [Sat Apr 23 16:29:21 2022] ***
 compiled with version: 10.3.1 20210921 on 05 April 2021 18:18:03
