@@ -75,7 +75,11 @@
             <li><a href="/status/os-info">OS System Info</a></li>
             <li><a href="{{ url_for('static', filename='tello-sdk.pdf') }}">Drone SDK Documentation</a></li>
         </ul>
-
+        <h2>Middleware Status Information</h2>
+        <ul>
+          <li>Server IP: {{ middleware_ip }}</li>
+          <li>Server Port: {{ middleware_port }}</li>
+        </ul>
       </section> 
     </main>
   </body>

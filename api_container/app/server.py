@@ -22,7 +22,7 @@ app = flask.Flask(__name__)
 #####################################################################################################################
 @app.route('/', methods=['GET'])
 def home():
-    return render_template("index.html")
+    return render_template("index.html", middleware_ip=os.environ.get("MIDDLEWARE_IP"), middleware_port=os.environ.get("MIDDLEWARE_PORT"))
 
 @app.route('/command', methods=['POST'])
 # Example: curl -X POST 'http://localhost:5000/command'
