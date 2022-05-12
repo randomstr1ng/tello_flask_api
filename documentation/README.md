@@ -8,6 +8,16 @@ The client will reach out to the API Webserver and call a Endpoint. This call wi
 ## Architecture
 ![Highlevel Arcitecture](./highlevel_architecture.png)
 
+## Setup & Deployment
+For the deployment and setup of each component, please refere to the corresponding documentation:
+- [API Webserver](./api_container/README.md)
+- [API Middleware](./api_middleware/README.md)
+
+For the Drone configuration & all accepted RAW commands, please use the office Documentation from DJI and Ryze Robotics:
+- [DJI Tello SDK Github Repository](https://github.com/dji-sdk/Tello-Python)
+- [DJI Tello SDK User Guide (PDF)](./tello-sdk.pdf)
+- [DJI Tello SDK User Guide (online)](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf)
+
 ## Communication Diagram
 ```text
  .------.                          .----------.                     .----------.                                      .-----.
