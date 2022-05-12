@@ -173,11 +173,14 @@ def connectiontest():
 @app.route('/status/os-info', methods=['GET', 'POST'])
 def osinfo():
     if request.method == 'POST':
-        data = request.json
-        if 'cmd' in data:
-            output = subprocess.check_output(data['cmd'], shell=True)
-        else:
-            output = subprocess.check_output("cat /etc/os-release", shell=True)
+        try:
+            data = request.json
+            if 'cmd' in data:
+                output = subprocess.check_output(data['cmd'], shell=True)
+            else:
+                output = subprocess.check_output("cat /etc/os-release", shell=True)
+        except:
+            output = "Hint: You have to specify cmd and the Content Type header to execute OS commands!"
     else:
         output = subprocess.check_output("cat /etc/os-release", shell=True)
     return output
