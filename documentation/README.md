@@ -35,6 +35,9 @@ The client will reach out to the API Webserver and call a Endpoint. This call wi
 - [Postman Collection](./tello_custom_api.postman_collection.json)
 
 ### API Endpoint overview
+
+- [Detailed API Endpoint overview](./api-overview.md)
+
 Endpoint | Data | Method | Description
 ---------|------|--------|-------------
 /command | - | POST | Configure the Drone to accept commands from API Interface
