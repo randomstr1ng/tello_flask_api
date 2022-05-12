@@ -10,24 +10,51 @@ The client will reach out to the API Webserver and call a Endpoint. This call wi
 
 ## Communication Diagram
 ```text
- .----------.                        .----------.                                          .-----.
- |API Server|                        |Middleware|                                          |Drone|
- '----------'                        '----------'                                          '-----'
-      |                                   |                                                   |   
-      |Send translated API Command via UDP|                                                   |   
-      |---------------------------------->|                                                   |   
-      |                                   |                                                   |   
-      |                                   |            Forward API Command via UDP            |   
-      |                                   |-------------------------------------------------->|   
-      |                                   |                                                   |   
-      |                                   |Return Status of Command execution or Error Message|   
-      |                                   |<--------------------------------------------------|   
-      |                                   |                                                   |   
-      |   Forward Drone Return Message    |                                                   |   
-      |<----------------------------------|                                                   |   
- .----------.                        .----------.                                          .-----.
- |API Server|                        |Middleware|                                          |Drone|
- '----------'                        '----------'                                          '-----'
+ .------.                          .----------.                     .----------.                                      .-----.
+ |Client|                          |API Server|                     |Middleware|                                      |Drone|
+ '------'                          '----------'                     '----------'                                      '-----'
+    |                                   |                                |                                               |   
+    |HTTP Request to API Endpoint (HTTP)|                                |                                               |   
+    |---------------------------------->|                                |                                               |   
+    |                                   |                                |                                               |   
+    |                                   |Translated API Command (RAW UDP)|                                               |   
+    |                                   |------------------------------->|                                               |   
+    |                                   |                                |                                               |   
+    |                                   |                                |               Command (RAW UDP)               |   
+    |                                   |                                |---------------------------------------------->|   
+    |                                   |                                |                                               |   
+    |                                   |                                |Return Success Status / Error Message (RAW UDP)|   
+    |                                   |                                |<----------------------------------------------|   
+    |                                   |                                |                                               |   
+    |                                   | Drone Return Message (RAW UDP) |                                               |   
+    |                                   |<-------------------------------|                                               |   
+    |                                   |                                |                                               |   
+    |Display Drone Return Message (HTTP)|                                |                                               |   
+    |<----------------------------------|                                |                                               |   
+ .------.                          .----------.                     .----------.                                      .-----.
+ |Client|                          |API Server|                     |Middleware|                                      |Drone|
+ '------'                          '----------'                     '----------'                                      '-----'
+```
+- Example communication for `/status/connection-test` Endpoint:
+```text
+ .------.                             .----------.   .----------.
+ |Client|                             |API Server|   |Middleware|
+ '------'                             '----------'   '----------'
+    |                                      |              |      
+    |   HTTP GET /status/connection-test   |              |      
+    |------------------------------------->|              |      
+    |                                      |              |      
+    |                                      |RAW UDP "ping"|      
+    |                                      |------------->|      
+    |                                      |              |      
+    |                                      |RAW UDP "pong"|      
+    |                                      |<-------------|      
+    |                                      |              |      
+    |HTTP JSON response "{"status":"pong"}"|              |      
+    |<-------------------------------------|              |      
+ .------.                             .----------.   .----------.
+ |Client|                             |API Server|   |Middleware|
+ '------'                             '----------'   '----------'
 ```
 
 ## API Capabilities
