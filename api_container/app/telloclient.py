@@ -17,6 +17,7 @@ class telloclient():
         try:
             command = command.encode(encoding="utf-8")
             sent = s.sendto(command, target_address)
+            s.settimeout(4)
             result, server = s.recvfrom(1518)
             s.close()
             return result

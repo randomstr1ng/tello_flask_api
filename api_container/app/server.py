@@ -9,7 +9,7 @@ droneclient = telloclient(result_port=int(os.environ.get("MIDDLEWARE_RESULT_PORT
 
 def drone_command(droneclient, command, port=int(os.environ.get("MIDDLEWARE_PORT")), target=os.environ.get("MIDDLEWARE_IP")):
     status = droneclient.client(command=command, port=port, target=target)
-    if "Error" in status.decode(encoding='utf-8'):
+    if "Error" in status:
         return status
     else:
         status = {
