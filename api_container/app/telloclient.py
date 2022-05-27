@@ -20,7 +20,7 @@ class telloclient():
             s.settimeout(4)
             result, server = s.recvfrom(1518)
             s.close()
-            return result
+            return result.decode(encoding="utf-8")
         except Exception as e:
             s.close()
             return "Error: " + str(e)

@@ -13,7 +13,7 @@ def drone_command(droneclient, command, port=int(os.environ.get("MIDDLEWARE_PORT
         return status
     else:
         status = {
-            'Status': status.decode("utf-8").strip(),
+            'Status': status,
         }
         return jsonify(status)
 
