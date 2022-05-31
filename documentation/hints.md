@@ -1,7 +1,7 @@
 # Tips & Hints
 This document contains possible tips and hints for the teams which can be provided in exchange of a small fee.
 
-## Easy (20 Cyber$)
+## Easy (10 seconds)
 ### Quickstart Guide (Free Hint)
 Use Quickstart Guide with some examples on how to use the API and which endpoints exist.
 
@@ -22,7 +22,7 @@ Use FortiWeb Web Protection cabailities to prevent attacks against API like OS-C
 - Help documentation URL:
 https://docs.fortinet.com/document/fortiweb/7.0.0/administration-guide/847966/web-protection
 
-## Medium (40 Cyber$)
+## Medium (20 seconds)
 ### OS-Command execution
 The Drone API provides an diagnostic endpoint which allows to get more System details of the API Server itself.
 Sometimes you need to `POST` something insted of `GET`ting information.
@@ -36,7 +36,7 @@ What if you change the request method?
 The API Middleware diagnostic allows to not only `GET`information - Why not check if the diagnostics also allows to setup a directo communication with the Drone itself.
 - Drone SDK Guide: https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf
 
-## Hard (60 Cyber$)
+## Hard (40 seconds)
 ### OS-Command Injection
 The Drone API provides an diagnostic endpoint which allows to execute OS commands on the API Server itself. This can be used to e.g. stop the server of the competitor.
 - Endpoint: `/status/os-info`
