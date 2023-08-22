@@ -184,6 +184,16 @@ def osinfo():
     else:
         output = subprocess.check_output("cat /etc/os-release", shell=True)
     return output
+
+@app.route('/tools/calc', methods=['POST'])
+def calc():
+    try:
+        data = request.json
+        result = eval(data['calc'])
+        return str(result)
+    except:
+        return "Hint: You have to specify calc and the Content Type header to execute a calculation!"
+    
 #####################################################################################################################
 if __name__ == "__main__":
     app.run()

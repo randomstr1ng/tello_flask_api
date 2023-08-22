@@ -42,30 +42,51 @@
         <h2>Convert feet to centimeter (cm) and vise-versa</h2>
 
         <p>As the Drone only accepts only centimer for any disctance, this calculator will help you to convert feet to centimeter (cm) and centimeter (cm) to feet.</p>
-        <p>
-            <h3>Feet (ft) to Centimeter (cm)</h3>
-            <p>Feet (ft): <input id="inputFeet" type="number" placeholder="feet" oninput="ft2cm(this.value)" onchange="ft2cm(this.value)"></p>
-        </p>
-        <p>Result: (cm): <b><span id="outputcm"></span></b></p>
+        <h1>Unit Conversion</h1>
+        <form id="conversionForm">
+            <input type="number" id="value" name="value" step="any" required>
+            <select id="conversionType" name="conversionType" required>
+                <option value="cm_to_ft">cm to ft</option>
+                <option value="ft_to_cm">ft to cm</option>
+            </select>
+            <button type="submit">Convert</button>
+        </form>
+        <br>
+        <div id="resultContainer" style="display: none;">
+          <p>Result: <span id="convertedResult"></span></p>
+        </div>
         <script>
-            function ft2cm(valNum) {
-              document.getElementById("outputcm").innerHTML=(valNum/0.032808).toFixed(2);
-            }
+            document.getElementById("conversionForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                const value = parseFloat(document.getElementById("value").value);
+                const conversionType = document.getElementById("conversionType").value;
+                let result;
+                if (conversionType === "cm_to_ft") {
+                    data = value + "/30.48"; // Conversion factor from cm to ft
+                } else {
+                    data = value + "*30.48"; // Conversion factor from ft to cm
+                }
+                // Sending the calculation data to the API endpoint
+                fetch("/tools/calc", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ calc: data })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Displaying the result
+                    document.getElementById("convertedResult").innerHTML = data.toFixed(2);
+                    document.getElementById("resultContainer").style.display = "block";
+                })
+                .catch(error => {
+                    // Displaying the error
+                    console.error("Error:", error);
+                });
+            });
         </script>
-
-        <p>
-            <h3>Centimeter (cm) to Feet (ft)</h3>
-            <p>Centimeter (cm): <input id="inputcentimeter" type="number" placeholder="feet" oninput="cm2ft(this.value)" onchange="cm2ft(this.value)"></p>
-        </p>
-        <p>Result: (ft): <b><span id="outputfeet"></span></b></p>
-        <script>
-            function cm2ft(valNum) {
-              document.getElementById("outputfeet").innerHTML=(valNum*0.032808).toFixed(2);
-            }
-        </script>
-               
       </section>
-      
       <section id="debug">
         
         <h1>API Debug & Troubelshooting</h1>

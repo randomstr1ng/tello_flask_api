@@ -134,3 +134,7 @@ curl -X GET 'http://localhost:5000/status/os-info'
 # Execute "whoami" OS command and returns back the output.
 curl -X POST 'http://localhost:5000/status/os-info' -d '{"cmd":"whoami"}' -H 'Content-Type: application/json'
 ```
+## /tools/calc
+- HTTP Method: `POST`
+- Function: `Used by the ft2cm/cm2ft calculator for the math operation`
+- Calculator url: `http://<Server IP>:5000/#calc`
